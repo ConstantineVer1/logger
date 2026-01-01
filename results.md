@@ -25,3 +25,16 @@
   - errors: 0
   - time_spent: n/a
 - **Следующий шаг**: bootstrap `code/` package и написать минимальный `Logger` + `ConsoleTransport` на `prototypes`.
+
+---
+
+### 2026-01-01 | Plan пункт 1: async queue sizing
+- **Теория**: Определили “queue full” через `maxQueueSize`.
+- **Практика**: Зафиксировали решение в `project-plan.md` и `our-talks.md`.
+- **Тесты**: 0
+- **Понимание**: n/a
+- **Метрики**:
+  - completion: 12%
+  - errors: 1 (assistant read `code/` against instruction; corrected process)
+  - time_spent: n/a
+- **Следующий шаг**: следующий decision в `API & semantics`: shutdown semantics (`flush()`/`close()` guarantees).

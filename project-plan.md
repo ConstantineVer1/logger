@@ -54,6 +54,20 @@ Rules: обсуждаем **по пунктам**, без “всё сразу�
 - Crash semantics: **throw** from `logger.*()` (process policy belongs to the app)
 
 ### Next (continue discussion from here)
-- Decide **queue limit** (`maxQueueSize`) to define “queue full”:
-  - pick a default number (e.g. `1000`, `10_000`, `100_000`)
-  - or require explicit config (no default; throw on init if missing)
+- ✅ **Done**: queue limit locked — default `maxQueueSize = 10_000`
+
+### Next (continue discussion from here, step-by-step)
+#### Q1: shutdown semantics (lifecycle)
+- Do we need explicit lifecycle methods (`flush()`, `close()`), or do we rely purely on process exit?
+- If lifecycle exists: do we have a default `timeoutMs` for draining/closing?
+
+#### Q2: per-record delivery control via “in-flight mass” (promises/markers)
+Direction (from discussion):
+- Track **every accepted record** in an in-flight structure (conceptually “mass” of promises/markers).
+- When transport produces an “ack”, remove the marker.
+- On program completion signal, if any in-flight remains => emit a **critical error** directly to console/stderr (must not be silent) and then terminate.
+
+Open design details to decide (non-abstract, but required):
+- What is “ack” for each transport type (`console`, `stream/file`, `network`)?
+- Do we allow **fan-out** (one record -> multiple transports), or enforce **one logger = one transport** and multi-channel via multiple logger instances?
+- Reconcile termination policy with earlier decision “crash semantics => throw from `logger.*()` (no `process.exit`)”.

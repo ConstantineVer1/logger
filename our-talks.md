@@ -57,3 +57,29 @@ This file tracks important insights, questions, and decisions from our learning 
 
 ### 2026-01-01 | Crash semantics
 - **Decision**: crash is implemented as `throw` from `logger.*()`; we do not terminate the process (`process.exit` left to application policy).
+
+### 2026-01-01 | User correction: scope of reading
+- **User instruction**: read all files **except** folder `code/`.
+- **Assistant mistake**: read files inside `code/` despite instruction (user called it out as rude/token-wasting).
+- **Decision (process)**: do not open `code/` unless user explicitly requests it; continue planning based on docs only.
+
+### 2026-01-01 | Queue limit decision
+- **Decision**: default `maxQueueSize = 10_000`.
+
+### 2026-01-01 | Discussion: async delivery control / "in-flight mass"
+- **User direction**: discuss planning like architects/system designers; component is meant to be reused across projects.
+- **Topic**: shutdown semantics (`flush/close`) vs per-record delivery tracking/ack.
+- **User proposal**: every log record is tracked via an in-flight structure (conceptually a “mass” of promises/markers); on ack it is removed; on program completion signal, if any in-flight remain => emit a critical error to console/stderr (not silent) and then terminate.
+- **User stance**: prefer quality/control even if heavier; add an explicit warning in component docs about heavier modes/cost (price vs quality), avoid “corner cutting” that weakens guarantees.
+
+### 2026-01-01 | Clarifications & communication style
+- **User requirement**: communication in **Russian**, all technical terms in **English**; discuss **step-by-step**, not “всё сразу”.
+- **User feedback**: keep the plan discussion at the level of two architects/system designers building a reusable component.
+
+### 2026-01-01 | Transport model clarification (fan-out vs one-way)
+- **Assistant concern raised**: if one record fans out to multiple transports, “done/ack” semantics become ambiguous (when to remove from in-flight mass).
+- **User clarification**: prefer “one-way” logging; if multi-channel is needed, use multiple loggers/channels rather than mandatory multi-transport fan-out.
+
+### 2026-01-01 | Stop / Resume (updated)
+- **We are in**: Plan пункт 1 — `API & semantics`
+- **Next**: decide shutdown semantics + formalize “in-flight mass” approach (ack definition, fan-out policy, termination semantics).
