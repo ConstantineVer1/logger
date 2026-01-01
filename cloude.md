@@ -42,3 +42,18 @@ Use, update and take into account for for every session:
 - **CRITICAL: Never assume understanding - always verify through practice**
 - **Challenge student knowledge from multiple angles before moving forward**
 - **Track: what was explained vs what was practiced vs what was tested**
+
+---
+
+## Project: universal logger (JavaScript/Node.js, prototypes)
+
+### Requirements (from user)
+- Communication in **Russian**, all technical terms in **English**
+- Build a **universal logger** for **JavaScript** + **Node.js**
+- Implement core via **prototypes** (function constructors + `prototype`, avoid `class`)
+- Go **step by step**
+- Include a development **plan**
+- **Plan пункт 6**: enable **testing**; tests should be **all-round**, target **100% coverage** (production + training project)
+
+### Plan
+See `project-plan.md`.
